@@ -1,0 +1,19 @@
+name: Check commit message
+on: [push, pull_request]
+jobs:
+  check-commits:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Check commit messages
+      run: |
+        git fetch --prune --unshallow
+        COMMITS=$(git log origin/${{ github.base_ref }}..HEAD --oneline)
+        echo "$COMMITS"
+        if echo "$COMMITS" | grep -qE '^[0-9a-f]{7,} [0-9]+ - .+'; then
+          echo "Correct commit message."
+        else
+          echo "Error : One or multiple commit messages don't have the correct format."
+          exit 1
+        fi
