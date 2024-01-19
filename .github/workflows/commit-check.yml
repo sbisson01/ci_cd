@@ -1,4 +1,4 @@
-name: Vérification des messages de commit
+name: Check commit messages
 on: [push, pull_request]
 jobs:
   check-commits:
@@ -16,8 +16,8 @@ jobs:
         fi
         echo "$COMMITS"
         if echo "$COMMITS" | grep -qE '^[0-9a-f]{7,} [0-9]+ - .+'; then
-          echo "Les messages de commit sont corrects."
+          echo "Correct commit messages."
         else
-          echo "Erreur : Un ou plusieurs messages de commit ne suivent pas le format 'Number - message'."
+          echo "Erreur : One or more commit messages don't have the correct format. 'Number - message'."
           exit 1
         fi
